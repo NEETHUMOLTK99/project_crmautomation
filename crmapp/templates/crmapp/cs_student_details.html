@@ -1,0 +1,20 @@
+{% extends 'crmapp/cs_base.html' %}
+{% block body_block %}
+<div class="container">
+        <div class="bg-light p-5 " >
+Addmission Number:{{admissions.admission_number}}<br>
+Enquiry:{{ admissions.eid }}<br>
+Name of the Student:{{ students.student_name }}<br>
+Course:{{ students.course }}<br>
+Batch:{{ students.batch }}<br>
+Address{{ students.address }}<br>
+Email:{{ students.email }}<br>
+Phone No:{{ students.phone }}<br>
+Qualification:{{students.qualification}}<br>
+College:{{students.college}}<br>
+Fees:{{ admissions.fees }}<br>
+Date of Join:{{ admissions.date }}<br>
+        </div>
+</div>
+
+{% endblock %}

@@ -1,0 +1,20 @@
+{% extends 'crmapp/cs_base.html' %}
+{% block body_block %}
+<table class="table">
+    <tr>
+        <td>Student Name</td>
+        <td>Phone Number</td>
+        <td>Course</td>
+        <td>Batch</td>
+    </tr>
+    {% for d in dates %}
+     <tr>
+        <td>{{d.student_name}}</td>
+        <td>{{d.phone }}</td>
+        <td>{{d.course }}</td>
+        <td>{{d.batch }}</td>
+         <td><a href="{% url 'enquiry_edit' d.id %}" class="btn btn-primary btn-block">Change Status</a> </td>
+    </tr>
+    {% endfor %}
+</table>
+{% endblock %}

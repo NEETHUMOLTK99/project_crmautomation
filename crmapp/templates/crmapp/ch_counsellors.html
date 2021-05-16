@@ -1,0 +1,23 @@
+{% extends 'crmapp/ch_base.html' %}
+{% block body_block %}
+<table class="table">
+    <tr>
+        <td>first_name</td>
+        <td>last_name</td>
+        <td>email</td>
+        <td>username</td>
+    </tr>
+    {% for cs in counsellors %}
+    <tr>
+        <td>{{ cs.first_name }}</td>
+        <td>{{ cs.last_name }}</td>
+          <td>{{ cs.email }}</td>
+        <td>{{ cs.username }}</td>
+        <td><a href="{% url 'cs_edit' cs.id %}"class="btn btn-primary btn-block">Edit</a> </td>
+        <td><a href="{% url 'cs_delete' cs.id %}"class="btn btn-primary btn-block">Delete</a> </td>
+
+
+    </tr>
+    {% endfor %}
+</table>
+{% endblock %}

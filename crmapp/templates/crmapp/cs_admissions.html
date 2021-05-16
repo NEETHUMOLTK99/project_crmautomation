@@ -1,0 +1,63 @@
+{% extends 'crmapp/cs_base.html' %}
+{% block body_block %}
+<form method="post">
+    {% csrf_token %}
+    {{ form.as_p }}
+    <input type="submit" class="btn btn-outline-primary" value="Create">
+</form>
+<table class="table">
+    <tr>
+        <td>Enquiry Id</td>
+        <td>Admission Number</td>
+        <td>fees</td>
+        <td>Batch</td>
+        <td>date</td>
+    </tr>
+    {% for a in page_obj%}
+
+    <tr>
+        <td>{{ a.eid }}</td>
+        <td><a href="{% url 'st_view' a.id %}" >{{ a.admission_number }}</a></td>
+        <td>{{ a.fees }}</td>
+          <td>{{ a.batch_code }}</td>
+          <td>{{ a.date }}</td>
+
+         <td><a href="{% url 'admission_edit' a.id %}">Edit</a> </td>
+        <td><a href="{% url 'admission_delete' a.id %}">Delete</a> </td>
+        <td><a href="{% url 'st_register' a.id %}">Registration</a> </td>
+
+
+    </tr>
+    {% endfor %}
+
+</table>
+ <nav aria-label="..." style="margin-top: 5%;">
+  <ul class="pagination">
+      {% if page_obj.has_previous %}
+       <li class="page-item">
+        <a class="page-link" href="?page={{ page_obj.previous_page_number }}">Previous</a>
+       </li>
+      {% else %}
+      <li class="page-item disabled">
+      <a class="page-link" href="#" tabindex="-1" aria-disabled="true">Previous</a>
+      </li>
+      {% endif %}
+      {% for i in page_obj.paginator.page_range %}
+      {% if i == page_obj.number %}
+      <li class="page-item active"><a class="page-link">{{i}}</a></li>
+      {% else %}
+      <li class="page-item"><a class="page-link" href="?page={{ i }}">{{i}}</a></li>
+      {% endif %}
+      {% endfor %}
+      {% if page_obj.has_next %}
+      <li class="page-item">
+      <a class="page-link" href="?page={{ page_obj.next_page_number }}">Next</a>
+      </li>
+      {% else %}
+      <li class="page-item disabled">
+      <a class="page-link" href="#" tabindex="-1" aria-disabled="true">Next</a>
+      </li>
+      {% endif %}
+  </ul>
+</nav>
+{% endblock %}

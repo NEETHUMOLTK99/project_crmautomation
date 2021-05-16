@@ -1,0 +1,15 @@
+{% extends 'crmapp/st_base.html' %}
+{% block body_block %}
+{% load static %}
+ <link rel="stylesheet" href="{% static 'css/st_pay.css' %}">
+ <div class="container">
+     <div class="bg-light p-5 " style="margin-top: 5%;" >
+<form method="post">
+    {% csrf_token %}
+    {{ form.as_p }}
+    <input type="submit" class="btn btn-outline-primary" value="Pay">
+</form>
+     </div>
+ </div>
+
+{% endblock %}

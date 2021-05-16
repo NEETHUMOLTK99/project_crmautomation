@@ -1,0 +1,101 @@
+{% extends 'crmapp/cs_base.html' %}
+{% block body_block %}
+<form method="post"id="EnquiryForm" data-course-url="{% url 'ajax_load_course' %}">
+    {% csrf_token %}
+    {{ form.as_p }}
+    <input type="submit" class="btn btn-outline-primary" value="Create">
+</form>
+<table class="table">
+    <tr>
+        <td>Enquiry Id</td>
+        <td>Student Name</td>
+
+
+        <td>Phone</td>
+         <td>Qualification</td>
+
+        <td>Course</td>
+        <td>Batch</td>
+
+        <td>Status</td>
+
+    </tr>
+    {% for s in page_obj %}
+    <tr>
+        <td>{{ s.enquiry_id }}</td>
+        <td>{{ s.student_name }}</td>
+
+
+          <td>{{ s.phone }}</td>
+         <td>{{ s.qualification }}</td>
+
+          <td>{{ s.course }}</td>
+        <td>{{ s.batch }}</td>
+
+        <td>{{ s.status }}</td>
+
+         <td><a href="{% url 'enquiry_edit' s.id %}" class="btn btn-primary btn-block">Edit</a> </td>
+        <td><a href="{% url 'enquiry_delete' s.id %}" class="btn btn-primary btn-block">Delete</a> </td>
+            {% if s.status == "admited" %}
+         <td><a href="{% url 'admission' s.id %}" class="btn btn-primary btn-block">Register</a> </td>
+        {% endif %}
+
+    </tr>
+    {% endfor %}
+</table>
+ <nav aria-label="..." style="margin-top: 5%;">
+  <ul class="pagination">
+      {% if page_obj.has_previous %}
+       <li class="page-item">
+        <a class="page-link" href="?page={{ page_obj.previous_page_number }}">Previous</a>
+       </li>
+      {% else %}
+      <li class="page-item disabled">
+      <a class="page-link" href="#" tabindex="-1" aria-disabled="true">Previous</a>
+      </li>
+      {% endif %}
+      {% for i in page_obj.paginator.page_range %}
+      {% if i == page_obj.number %}
+      <li class="page-item active"><a class="page-link">{{i}}</a></li>
+      {% else %}
+      <li class="page-item"><a class="page-link" href="?page={{ i }}">{{i}}</a></li>
+      {% endif %}
+      {% endfor %}
+      {% if page_obj.has_next %}
+      <li class="page-item">
+      <a class="page-link" href="?page={{ page_obj.next_page_number }}">Next</a>
+      </li>
+      {% else %}
+      <li class="page-item disabled">
+      <a class="page-link" href="#" tabindex="-1" aria-disabled="true">Next</a>
+      </li>
+      {% endif %}
+  </ul>
+</nav>
+<script src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
+<script>
+    $("#id_course").change(function () {
+        const url = $("#EnquiryForm").attr("data-course-url");  // get the url of the `load_cities` view
+        const courseId = $(this).val();  // get the selected country ID from the HTML input
+
+        $.ajax({                       // initialize an AJAX request
+            url: url,                    // set the url of the request (= /persons/ajax/load-cities/ )
+            data: {
+                'course_id': courseId       // add the country id to the GET parameters
+            },
+            success: function (data) {   // `data` is the return of the `load_cities` view function
+                $("#id_batch").html(data);  // replace the contents of the city input with the data that came from the server
+                /*
+                let html_data = '<option value="">---------</option>';
+                data.forEach(function (batch) {
+                    html_data += `<option value="${batch.id}">${batch.batch_code}</option>`
+                });
+                console.log(html_data);
+                $("#id_batch").html(html_data);
+                */
+            }
+        });
+
+    });
+</script>
+{% endblock %}
